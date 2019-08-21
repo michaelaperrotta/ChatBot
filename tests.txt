@@ -1,0 +1,627 @@
+// file used for unit testing
+
+// TESTS FOR TOKENS
+void test1() {
+    cout << "ABSTRACT TOKEN TESTS \n" << endl;
+    cout << "Testing: operator=()" <<endl;
+
+    AbstractToken a("hello");
+    AbstractToken b("hello again");
+    a = b;
+}
+
+void test2() {
+    cout << "Testing: add_response() on an AbstractToken" <<endl;
+
+    AbstractToken a("hello");
+    cout << "Number of responses: " << a.num_responses() << endl;
+    a.add_response("Nice to meet you");
+    cout << "Number of responses: " << a.num_responses() << endl;
+}
+
+void test3() {
+    cout << "Testing: add_response() on a KeyWord" <<endl;
+
+    KeyWord k("key");
+    cout << "Number of responses: " << k.num_responses() << endl;
+    k.add_response("Nice dude.");
+    cout << "Number of responses: " << k.num_responses() << endl;
+}
+
+void test4() {
+    cout << "Testing: del_response()" <<endl;
+
+    AbstractToken a("hello");
+    a.add_response("Nice to meet you");
+    a.add_response("um hi????");
+    a.add_response("hola!");
+    a.add_response("hi, have we met before?");
+    cout << "Number of responses: " << a.num_responses() << endl;
+    cout << "Calling del_response()..." <<endl;
+    a.del_response("hola!");
+
+    cout << "Number of responses: " << a.num_responses() << endl;
+}
+
+void test5() {
+    cout << "Testing: get_content()" <<endl;
+
+    AbstractToken a("beautiful");
+    a.add_response("You too");
+    cout << "Content retrieved: " << a.get_content() << endl;
+}
+
+void test6() {
+    cout << "Testing: has_response() when true" <<endl;
+
+    AbstractToken a("Hi");
+    a.add_response("Whats up");
+    a.add_response("Um hello?");
+    a.add_response("Hi, anyone there?");
+    a.add_response("Bye.");
+
+    cout << "adding response: Bye. " <<endl;
+    cout << "Result when calling has_response(Bye.) : " << a.has_response("Bye.") <<endl;
+}
+
+
+void test7() {
+    cout << "Testing: has_response() when false" <<endl;
+
+    AbstractToken a("Hi");
+    a.add_response("Whats up");
+    a.add_response("Um hello?");
+    a.add_response("Hi, anyone there?");
+    a.add_response("Bye.");
+
+    cout << "Result when calling has_response(Ahahahahhaha) : " << a.has_response("Ahahahahhaha") <<endl;
+}
+
+void test8() {
+    cout << "Testing: num_responses() on initial with empty response vector" <<endl;
+
+    AbstractToken a("hello");
+
+    cout << "No responses have been added yet..." <<endl;
+    cout << "Number of responses: " << a.num_responses() << endl;
+}
+
+void test9() {
+    cout << "Testing: num_responses() after adding reponses" <<endl;
+
+    AbstractToken a("hello");
+
+    a.add_response("Nice to meet you");
+    a.add_response("um hi????");
+    a.add_response("hola!");
+    a.add_response("hi, have we met before?");
+
+    cout << "4 responses added..." <<endl;
+    cout << "Number of responses: " << a.num_responses() << endl;
+}
+
+
+void test10() {
+    cout << "Testing: get_responses() when therea are no responses" <<endl;
+
+    AbstractToken a("hello");
+    cout << "No responses have been added yet..." <<endl;
+    cout << "Printing responses: " << endl;
+
+    for (auto r : a.get_responses()) {
+        cout << r << endl;
+    }
+}
+
+void test11() {
+    cout << "Testing: num_responses() after adding reponses" <<endl;
+
+    AbstractToken a("hello");
+
+    a.add_response("Nice to meet you");
+    a.add_response("um hi????");
+    a.add_response("hola!");
+    a.add_response("hi, have we met before?");
+
+    cout << "4 responses have been added..." <<endl;
+    cout << "Printing responses: " << endl;
+
+    for (auto r : a.get_responses()) {
+        cout << r << endl;
+    }
+}
+
+// DICTIONARY
+void test12() {
+    cout << "DICTIONARY TESTS \n" << endl;
+    cout << "Testing: different constructors" <<endl;
+
+    cout << "default constructor" <<endl;
+    Dictionary d;
+
+    cout << "parameterized constructor: vector of tokens" <<endl;
+    AbstractToken a("Ay");
+    AbstractToken b("Bee");
+    AbstractToken c("Cee");
+    vector<AbstractToken*> vec = {&a, &b, &c};
+
+    Dictionary d2(vec);
+
+    cout << "parameterized constructor: vector of string, vector of vector of string" <<endl;
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d3(contentVec, responseVec);
+
+    cout << "Copy constructor" <<endl;
+
+    //call on previously uninitialized object
+    Dictionary copyDict = d2;
+}
+
+void test13() {
+    cout << "Testing: operator=()" <<endl;
+
+    cout << "Creating a non-empty dictionary A" <<endl;
+    string hi = "hi";
+    string nice = "nice";
+    vector<string> cVec = {hi, nice};
+
+    vector<string> hiResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> niceResponses = {"Very", "Super nice", "Pretty nice"};
+    vector<vector<string>> rVec = {hiResponses, niceResponses};
+
+    Dictionary a(cVec, rVec);
+
+    cout << "Creating a non-empty dictionary B" <<endl;
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary b(contentVec, responseVec);
+
+    //call on previously initialized object
+    cout << "Setting Dictionary A = B";
+    a = b;
+
+    cout << "A should now have B's tokens, for example: " <<endl;
+    cout << "calling has_token(weather): " << a.has_token("weather") <<endl;
+}
+
+
+
+void test14() {
+    cout << "Testing: add_token()" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+    cout << "Dictionary currently has: " << d.num_tokens() << " tokens." <<endl;
+
+
+    cout << "Adding new token with content: song" <<endl;
+    AbstractToken t("song");
+    d.add_token(&t);
+
+    cout << "Dictionary now has: " << d.num_tokens() << " tokens." <<endl;
+}
+
+void test15() {
+    cout << "Testing: del_token() when token doesnt exist" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+    cout << "Dictionary currently has: " << d.num_tokens() << " tokens." <<endl;
+
+
+    cout << "Calling del_token(non_existant)" <<endl;
+    d.del_token("non_existant");
+
+    cout << "Dictionary now has: " << d.num_tokens() << " tokens." <<endl;
+}
+
+void test16() {
+    cout << "Testing: del_token() when token does exist in dictionary" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+    cout << "Dictionary currently has: " << d.num_tokens() << " tokens." <<endl;
+
+
+    cout << "Calling del_token(hello)" <<endl;
+    d.del_token("hello");
+
+    cout << "Dictionary now has: " << d.num_tokens() << " tokens." <<endl;
+}
+
+void test16b() {
+    cout << "Testing: get_token() when token does not exist" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+
+    cout << "Result of get_token(something): " << d.get_token("something") <<endl; // MIGHT BREk
+    cout << "Token is NULL." <<endl;
+}
+
+void test17() {
+    cout << "Testing: get_token() when token does exist" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+
+    const AbstractToken* a = d.get_token("weather");
+    string acontent = a->get_content();
+
+    cout << "Content of token retrieved by call to get_token(weather): " << acontent <<endl;
+}
+
+
+void test18() {
+    cout << "Testing: get_tokens() on empty dict" <<endl;
+    Dictionary d;
+
+    cout << "Printing all tokens: " <<endl;
+    for (auto t : d.get_tokens()) {
+        cout << t->get_content();
+    }
+}
+
+void test19() {
+    cout << "Testing: get_tokens() on non-empty dict" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+
+    cout << "Printing all tokens: " <<endl;
+    for (auto t : d.get_tokens()) {
+        cout << t->get_content();
+    }
+}
+
+void test19b() {
+    cout << "Testing: num_tokens() on empty dict" <<endl;
+    Dictionary d;
+
+    cout << "total token count: " << d.num_tokens() <<endl;
+}
+
+void test19c() {
+    cout << "Testing: num_tokens() on non-empty dict" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+
+    cout << "total token count: " << d.num_tokens() <<endl;
+}
+
+void test20() {
+    cout << "Testing: has_token() on empty dict" <<endl;
+    Dictionary d;
+
+    cout << "result of has_token(random): " << d.has_token("random") <<endl;
+}
+
+void test21() {
+    cout << "Testing: has_token() on non-empty dict w/o given token" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+
+    cout << "result of has_token(random): " << d.has_token("random") <<endl;
+}
+
+void test21b() {
+    cout << "Testing: has_token() on non-empty dict with given token" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+
+    cout << "result of has_token(hello): " << d.has_token("hello") <<endl;
+}
+
+//SPEAKOBJECT (WRAPPER CLASS FOR SYS COMMAND, 'SAY')
+void test22() {
+    SpeakObject so;
+
+    cout << "Should audidorily hear the following: " << endl;
+    cout << "Hello from SpeakObject!" << endl;
+
+    so.say("Hello from SpeakObject!");
+}
+
+// AI
+void test23() {
+    cout << "Testing: Constructors" <<endl;
+
+    // setup dictionary
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+
+    cout << "Default constructor" <<endl;
+    AI robot;
+
+    cout << "Parameterized constructor" <<endl;
+    AI ai(&d);
+
+    cout << "Copy constructor" <<endl;
+    AI a(ai);
+}
+
+
+void test24() {
+    cout << "Testing: operator=" <<endl;
+
+    // setup dictionary a
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary ad(contentVec, responseVec);
+    AI a(&ad);
+
+    // setup dict b
+    string good = "good";
+    string food = "food";
+    vector<string> cv = {good, food};
+    vector<string> goodResponses = {"Great", "Awesome?", "Sounds fabulous!"};
+    vector<string> foodResponses = {"I'm hungry", "Looking for good food places near by...", "What type of food?"};
+    vector<vector<string>> rv = {goodResponses, foodResponses};
+
+    Dictionary bd(cv, rv);
+    AI b(&bd);
+
+    cout << "Setting AI a = AI b" <<endl;
+    a = b;
+
+    // check to see if a has b attributes
+    //cout << "A should now have a token with content food..." <<endl;
+    //const Dictionary* dict = a.getDictionary();
+    //cout << "has_token(food) : " << dict->has_token("food") <<endl;
+}
+
+
+void test25() {
+    cout << "Testing: speak()" <<endl;
+
+    // setup dictionary
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+    AI robot(&d);
+
+    cout << "Should hear auditory response:" <<endl;
+    cout << "Hello from the depths of your terminal" <<endl;
+    robot.speak("Hello from the depths of your terminal");
+}
+
+void test26() {
+    cout << "Testing: get_token_frequency() when word count is 0" <<endl;
+
+    AI robot;
+
+    string word = "cake";
+    vector<string> vec = { "did", "he", "like", "the", "surprise", "surprise", "as", "well", "as", "the", "surpise", "party"  };
+
+    cout << "Num times the word cake occurs in sentence: " << robot.get_token_frequency(word, vec) <<endl;
+}
+
+void test27() {
+    cout << "Testing: get_token_frequency()" <<endl;
+
+    AI robot;
+
+    string word = "surprise";
+    vector<string> vec = { "did", "he", "like", "the", "surprise", "surprise", "as", "well", "as", "the", "surpise", "party"  };
+
+    cout << "Num times the word suprise occurs in sentence: " << robot.get_token_frequency(word, vec) <<endl;
+}
+
+void test27b() {
+    cout << "Testing: tokenize() with checkValid flag = true and false" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+    AI robot(&d);
+
+    string sentence = "Hello, I am a sentence containing very cool tokens. bye";
+
+    cout << "Printing list of tokens that are contained in sentence AND dictionary" <<endl;
+    vector<string> words = robot.tokenize(sentence, 1);
+    for (auto word : words) {
+        cout << word <<endl;
+    }
+
+    cout << "Now printing tokens that are contained in sentence (may not be present in dict)" <<endl;
+    vector<string> words2 = robot.tokenize(sentence, 0);
+    for (auto word : words2) {
+        cout << word <<endl;
+    }
+
+}
+
+
+void test28() {
+    cout << "Testing: max_frequency_word() on sentence with no words" <<endl;
+
+    AI ai;
+
+    vector<string> v = { };
+
+    cout << "Finding max word in empty sentence: " <<endl;
+    cout << "result: " << ai.max_frequency_word(v);
+}
+
+void test29() {
+    cout << "Testing: max_frequency_word()" <<endl;
+
+    AI ai;
+
+    vector<string> v = { "he", "threw", "a", "cool", "party", "at", "his", "cool", "house", "with", "cool", "cool", "people" };
+
+    cout << "Finding max word in sentence: he threw a cool party at his cool house with cool cool people" <<endl;
+    cout << "result: " << ai.max_frequency_word(v);
+}
+
+void test30() {
+    cout << "Testing: respond() when mapped response is found in dictionary" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+    AI robot(&d);
+
+    string input = "hello from user";
+
+    cout << "Responding to user..." <<endl;
+    robot.respond(input);
+}
+
+void test31() {
+    cout << "Testing: respond() when mapped response is NOT already in dictionary" <<endl;
+
+    string hello = "hello";
+    string bye = "bye";
+    string weather = "weather";
+    vector<string> contentVec = {hello, bye, weather};
+    vector<string> helloResponses = {"Hello how you", "Have we met before?", "Deja vu"};
+    vector<string> byeResponses = {"Goodbye", "Farewell have a nice day", "Byeee"};
+    vector<string> weatherResponses = {"lookin humid today", "partly cloud with a chance of meatballs?", "A storms a brewin"};
+    vector<vector<string>> responseVec = {helloResponses, byeResponses, weatherResponses};
+
+    Dictionary d(contentVec, responseVec);
+    AI robot(&d);
+
+    string input = "what's a healthy food to eat today?";
+
+    cout << "Responding to user..." <<endl;
+    robot.respond(input);
+}
