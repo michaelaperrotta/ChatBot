@@ -1,2 +1,2 @@
 # ChatBot
-user-interactive chat bot
+user-interactive chatbot
